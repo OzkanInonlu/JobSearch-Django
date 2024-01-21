@@ -1,0 +1,111 @@
+{%extends "includes/base.html"%}
+ {%load static%} 
+ {%load i18n%} 
+ {% load crispy_forms_tags %} 
+ {%block content%}
+    <!--Main layout-->
+    <main class="mt-1 pt-4 mb-5">
+      <div class="container wow fadeIn">
+        <!-- Heading -->
+        <h3 class="text-center p-1 title">
+          {%trans "Update Resume Form"%}
+        </h3>
+    
+        <!--Grid row-->
+    
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-md-12 mb-4">
+            <!--Card-->
+            <div class="card">
+              <!--Card content-->
+              <form class="card-body" method="POST" enctype="multipart/form-data">
+                {%csrf_token %}
+    
+                <h3 class="p-1">{%trans "Resume Information"%}</h3>
+    
+                <div class="update_company_form">
+                  <!--Username-->
+                  <div class="md-form input-group pl-0 mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">@</span>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control py-0"
+                      placeholder="Username"
+                      name="username"
+                      value="{{request.user.username}}"
+                      disabled
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+    
+                  <!--email-->
+                  <div class="md-form mb-3">
+                     {{form.first_name}}
+                    {% comment %} <input type="text" name = "first_name" class="form-control" value="{%if resume.first_name%}{{resume.first_name}}{%endif%}"> {% endcomment %}
+                    <label for="first_name" class="" style="padding-top: 5px"
+                      >{%trans "First Name"%}</label>
+                  </div>
+    
+                  <div class="md-form mb-5">
+                    {{form.last_name}}
+                    {% comment %} <input type="text" name = "last_name"class="form-control" value="{%if resume.last_name%}{{resume.last_name}}{%endif%}"> {% endcomment %}
+                    <label for="last_name" class="" style="padding-top: 5px"
+                      >{%trans "Last Name"%}</label>
+                  </div>
+
+                  <div class="md-form mb-3">
+                    {{form.nationality}}
+                    <div class="invalid-feedback">
+                      Please select a valid country.
+                    </div>
+  
+                  </div>
+
+                  <div class="md-form mb-3">
+                     {{form.job_title}}
+                    {% comment %} <input type="text" name = "job_title" class="form-control" value="{%if resume.job_title%}{{resume.job_title}}{%endif%}"> {% endcomment %}
+                    <label for="job_title" class="" style="padding-top: 5px"
+                      >{%trans "Your Job Title"%}</label>
+                  </div>
+                </div>
+    
+                <hr class="mb-3 mt-5" />
+
+                <div class="file-field mb-5">
+                  <label for="job_title" class="" style="padding-top: 5px"
+                  >{%trans "Upload your Resume"%} <br> <small> ( Upload only PDF or Word File ) </small></label>
+                  <div class="block">
+                    
+                    {% if has_resume_file %}
+                    <!-- Display the current resume and provide an option to change it -->
+                      <a href="{{ resume.upload_resume.url }}">{{ resume.upload_resume.name }}</a>
+                      <a href="{{ resume.upload_resume.url }}" target="_blank"><small>(Click to download it)</small></a> <br>
+                      <input type="file" name="resume_file">
+                    {% else %}
+                    <!-- Allow the user to upload a new resume -->
+                      <input type="file" name="resume_file" required>
+                    {% endif %}
+
+                  </div>
+                </div>
+                <button class="btn btn-lg btn-block" type="submit">
+                  {%trans "Save"%}
+                </button>
+              </form>
+            </div>
+            <!--/.Card-->
+          </div>
+          <!--Grid column-->
+    
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+    </main>
+    <!--Main layout-->
+    
+    {%endblock %}
+    

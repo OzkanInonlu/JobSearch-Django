@@ -1,0 +1,129 @@
+{%extends "includes/base.html"%} {%load static%} {%load i18n%} {% load
+crispy_forms_tags %} {%block content%}
+<!--Main layout-->
+<main class="mt-1 pt-4 mb-5">
+  <div class="container wow fadeIn">
+    <!-- Heading -->
+    <h3 class="text-center p-1 title">
+      {%trans "Update Company Information Form"%}
+    </h3>
+
+    <!--Grid row-->
+
+    <div class="row">
+      <!--Grid column-->
+      <div class="col-md-12 mb-4">
+        <!--Card-->
+        <div class="card">
+          <!--Card content-->
+          <form class="card-body" method="POST" enctype="multipart/form-data">
+            {%csrf_token %}
+
+            <h3 class="p-1">{%trans "Company Information"%}</h3>
+
+            <div class="update_company_form">
+              <!--Username-->
+              <div class="md-form input-group pl-0 mb-5">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control py-0"
+                  placeholder="Username"
+                  name="username"
+                  value="{{request.user.username}}"
+                  disabled
+                  aria-describedby="basic-addon1"
+                />
+              </div>
+
+              <!--email-->
+              <div class="md-form mb-5">
+                {% comment %} {{form.company_name}} {% endcomment %}
+                <input type="text" name="company_name" class="form-control" value="{%if company.company_name%}{{company.company_name}}{%endif%}">
+                <label for="company_name" class="" style="padding-top: 5px"
+                  >{%trans "Company Name"%}</label>
+              </div>
+
+              <!--address-2-->
+              <div class="md-form mb-5">
+                {% comment %} {{form.establishment_date}} {% endcomment %}
+                <input type="date" name="establishment_date" class="form-control" value="{%if company.establishment_date%}{{company.establishment_date|date:'Y-m-d'}}{%endif%}">
+
+                <label
+                  for="establishment_date"
+                  class=""
+                  style="padding-top: 5px"
+                  >{%trans "Establishment Date"%}</label
+                >
+              </div>
+
+              <div class="mb-4">
+                <!-- {% comment %} <label for="city">{%trans "City"%}</label> {% endcomment %}
+                {{form.cities}}
+                <div class="invalid-feedback">
+                  Please select a valid country.
+                </div> -->
+                <h3 class="p-1">{%trans "Select the City"%}</h3>
+
+                {% comment %} {% for value, name in form.fields.city_option.choices %}
+                {{form.city_option}}
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="{{value}}"
+                    name="city_option"
+                    value="{{value}}"
+                    required
+                  />
+                  <label class="custom-control-label" for="{{value}}"
+                    >{{name}}</label
+                  >
+                </div>
+                {%endfor%} {% endcomment %}
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="md-form">
+                      <select id="city" name="city_option" class="mr-1">
+                        <option value="N" {%if company.city == "Nicosia"%} selected {%endif%}>Nicosia</option>
+                        <option value="F" {%if company.city == "Famagusta"%} selected {%endif%}>Famagusta</option>
+                        <option value="O" {%if company.city == "Omorfo"%} selected {%endif%}>Omorfo</option>
+                        <option value="L" {%if company.city == "Lefke"%} selected {%endif%}>Lefke</option>
+                        <option value="K" {%if company.city == "Kyrenia"%} selected {%endif%}>Kyrenia</option>
+                        <option value="S" {%if company.city == "South Cyprus"%} selected {%endif%}>South Cyprus</option>
+                      </select>
+                      <label for="location" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="md-form">
+                      {% comment %} {{form.state}} {% endcomment %}
+                      <input type="text" name="state" class="form-control" value="{%if company.state%}{{company.state}}{%endif%}">
+                      <label for="state" class="" style="padding-top: 5px"
+                        >{%trans "State"%}</label>
+                    </div>
+                  </div>
+                </div> 
+
+            </div>
+
+            <hr class="mb-4" />
+            <button class="btn btn-lg btn-block" type="submit">
+              {%trans "Save"%}
+            </button>
+          </form>
+        </div>
+        <!--/.Card-->
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </div>
+</main>
+<!--Main layout-->
+
+{%endblock %}

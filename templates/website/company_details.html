@@ -1,0 +1,33 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5" style="height:100vh">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">{{ company.company_name }}</h2>
+            <p class="card-text">{{ company.description }}</p>
+            <p class="card-text"><strong>Location:</strong> {{ company.city }}, {{company.state}}</p>
+            <p class="card-text"><strong>Establishment Date:</strong> {{ company.establishment_date }}</p>
+            <p class="card-text"><strong>Website:</strong> <a href="https://www.google.com" target="_blank">Go to company website</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <img src="{% static "images/default-avatar.png" %}" alt="Profile Image" class="img-fluid rounded-circle mb-3"/>
+            <h5 class="card-title">Contact Information</h5>
+            <p class="card-text"><strong>Email:</strong> {{ company.user.email }}</p>
+            <p class="card-text"><strong>Phone No:</strong> +90 548 880 25 89</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{%endblock content%}

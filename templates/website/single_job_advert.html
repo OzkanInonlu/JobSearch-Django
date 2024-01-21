@@ -1,0 +1,79 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">{{job_advert.title}}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6" >
+                    <h5 class="card-title">Company: {{job_advert.company.company_name}}</h5>
+                    <p class="card-text" style="font-size:16px;"><b>Location:</b> {{job_advert.get_location_display}}</p>
+                    <p class="card-text" style="font-size:16px;"><b>Posted on:</b> {{job_advert.created_at | naturaltime}}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="card-title">Job Type: {{job_advert.get_job_type_display}}</h5>
+                    <p class="card-text" style="font-size:16px;"><b>Industry:</b> {{job_advert.industry.name}} </p>
+                    <p class="card-text" style="font-size:16px;"><b>Salary Range:</b> {{job_advert.min_salary | intcomma}} - {{job_advert.max_salary | intcomma}} $</p>
+                </div>
+            </div>
+            <h5 class="card-title mt-4">Job Description</h5>
+            <p class="card-text" style="font-size:16px;">
+                {{job_advert.description}}
+            </p>
+            <h5 class="card-title mt-4"><b>Details About {{job_advert.company.company_name}}</b></h5>
+            <p class="card-text" style="font-size:16px;">
+                The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum dolor sit amet, 
+                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                 enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+                 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+                 nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+                 mollit anim id est laborum." Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 
+                 45 BC "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+                 totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt 
+                 explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+                 magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum 
+                 quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt 
+                 labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum 
+                 exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? 
+                 Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae 
+                 , vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" 1914 translation by H.
+                  Rackham "But I must explain to you how all this mi
+            </p>
+            <a href="{%url "core:company_details" job_advert.company.id%}" class="btn">See more company details</a>
+        </div>
+        <div class="card-footer">
+            <a href="{%url "core:apply_to_job" job_advert.id%}" class="btn float-right {%if request.user.is_employer%}disabled{%endif%}">Apply Now</a>
+        </div>
+    </div>
+
+<!--Cards for other adverts of the company-->
+    <h2 class="title mt-3">Other advertisements from {{job_advert.company.company_name}}</h2>
+
+    <div class="row mb-5">
+
+        {%if all_job_adverts_of_company%}
+            {%for job_advert in all_job_adverts_of_company%}
+                    <!-- Card 1 -->
+                    <div class="col-md-4 mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{job_advert.title}}</h5>
+                                <p class="card-text">{{job_advert.description | truncatechars:40}}</p>
+                                <a href="{%url 'core:single_job_advert' job_advert.id%}" class="btn btn-primary">See More</a>
+                            </div>
+                        </div>
+                    </div>
+            {%endfor%}
+        {%endif%}
+
+
+    </div>
+</div>
+
+
+{%endblock content%}

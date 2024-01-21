@@ -1,0 +1,150 @@
+{%extends "includes/base.html"%}
+ {%load static%} 
+ {%load i18n%} 
+ {% load crispy_forms_tags %} 
+ {%block content%}
+ <main class="mt-1 pt-4 mb-5">
+    <div class="container wow fadeIn">
+  
+      <!-- Heading -->
+      <h3 class="text-center p-1 title">{%trans "Update Job Advertisement"%}</h3>
+  
+      <!--Grid row-->
+  
+      <div class="row">
+  
+        <!--Grid column-->
+        <div class="col-md-12 mb-4" >
+  
+          <!--Card-->
+          <div class="card">
+  
+            <!--Card content-->
+            <form class="card-body" method="POST" enctype="multipart/form-data">
+              {%csrf_token %}
+  
+              <h3 class="p-1">{%trans "Update Job Advertisement Information"%}</h3>
+  
+              <div>
+  
+                <!--Username-->
+                <div class="md-form input-group pl-0 mb-5">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                  </div>
+                  <input type="text" class="form-control py-0" placeholder="Username" name="username"
+                    value="{{request.user.username}}" disabled aria-describedby="basic-addon1">
+                </div>
+  
+                <div class="md-form mb-5">
+                  {% comment %} {{form.title}} {% endcomment %}
+                  <input type="text" class="form-control" placeholder="" required
+                    name="title" value="{{job_advert.title}}">
+                  <label for="title" style="padding-top:5px;" class="">Job Title</label>
+                </div>
+  
+                <!--Grid row-->
+                <div class="row">
+
+                  <div class="col-lg-4 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {% comment %} {{form.location}} {% endcomment %}
+                      <select id="industry" name="industry" class="mr-1">
+                        {%for i in INDUSTRIES %}
+                          <option value="{{i}}" {%if job_advert.industry.name == i%} selected {%endif%}>{{i}}</option> 
+                        {%endfor%}
+                      </select>
+                      <label for="location" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+
+                  <!--Grid column-->
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {% comment %} {{form.location}} {% endcomment %}
+                      <select id="location" name="location" class="mr-1">
+                        <option value="N" {%if job_advert.location == "N"%} selected {%endif%}>Nicosia</option>
+                        <option value="F" {%if job_advert.location == "F"%} selected {%endif%}>Famagusta</option>
+                        <option value="O" {%if job_advert.location == "O"%} selected {%endif%}>Omorfo</option>
+                        <option value="L" {%if job_advert.location == "L"%} selected {%endif%}>Lefke</option>
+                        <option value="K" {%if job_advert.location == "K"%} selected {%endif%}>Kyrenia</option>
+                        <option value="S" {%if job_advert.location == "S"%} selected {%endif%}>South Cyprus</option>
+                      </select>
+                      <label for="location" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {% comment %} {{form.location}} {% endcomment %}
+                      <select id="job_type" name="job_type" class="mr-1">
+                        <option value="F" {%if job_advert.job_type == "F"%} selected {%endif%}>Full Time</option>
+                        <option value="P" {%if job_advert.job_type == "P"%} selected {%endif%}>Part Time</option>
+                        <option value="R" {%if job_advert.job_type == "R"%} selected {%endif%}>Remote</option>
+                        <option value="H" {%if job_advert.job_type == "H"%} selected {%endif%}>Hybrid</option>
+                      </select>
+                      <label for="job_type" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+                  <!--Grid column-->
+  
+                  <!--Grid column-->
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                    <input type="text" class="form-control" placeholder="" required
+                        name="min_salary" value="{{job_advert.min_salary}}">
+                      {% comment %} {{form.min_salary}} {% endcomment %}
+                      <label for="min_salary" class="" style="padding-top:5px;">{%trans "Min Salary"%}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                        <input type="text" class="form-control" placeholder="" required
+                        name="max_salary" value="{{job_advert.max_salary}}">
+                      {% comment %} {{form.max_salary}} {% endcomment %}
+                      <label for="max_salary" class="" style="padding-top:5px;">{%trans "Max Salary"%}</label>
+                    </div>
+                  </div>  
+                </div> 
+
+                <div class="md-form mb-5">
+                    <input type="text" class="form-control" placeholder="" required
+                    name="description" value="{{job_advert.description}}">
+                    {% comment %} {{form.description}} {% endcomment %}
+                    <label for="description" style="padding-top:5px;" class=""></label>
+                </div>
+
+                <div class="d-block">
+                    <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="form-check-input" placeholder=""
+                        name="is_available" {%if job_advert.is_available%} checked {%endif%}>
+                      {% comment %} {{form.is_available}} {% endcomment %}
+                      <label class="custom-control-label" for="is_available">
+                        {%trans "Is that job advert still available?" %}</label>
+                    </div>
+                </div>
+
+              </div>
+              <hr class="mb-4">
+              <button class="btn btn-lg btn-block" type="submit">{%trans "Update Job Advert"%}</button>
+            </form>
+  
+          </div>
+          <!--/.Card-->
+  
+        </div>
+        <!--Grid column-->
+
+  
+      </div>
+      <!--Grid row-->
+  
+    </div>
+  </main>
+
+{%endblock%}

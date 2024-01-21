@@ -1,0 +1,186 @@
+{%load static%}
+{%load i18n %}
+<div class="my-navbar">
+    <div class="logo">
+        {% comment %} <a href="{%url 'core:home'%}">DjE-Commerce </a>{% endcomment %}
+        <a href="{%if request.user.is_applicant%} {%url "core:applicant_dashboard"%} {%elif request.user.is_employer%} {%url "core:employer_dashboard"%} {%else%} {%url "core:home_page"%} {%endif%}">
+            <img src="{%static 'images/logo.png'%}" alt="logo" width="100%" height="55px">
+        </a>
+    </div>
+    <nav>
+        <ul id="menu-items">
+            <li><a href="{%if request.user.is_applicant%} {%url "core:applicant_dashboard"%} {%elif request.user.is_employer%} {%url "core:employer_dashboard"%} {%else%} {%url "core:home_page"%} {%endif%}">{%trans "Home"%}</a></li>
+            <li><a href="{%url "core:all_job_adverts"%}">{%trans "Job Advertisements"%}</a></li>
+            {%if request.user.is_employer%}
+                <li>
+                    <a href="{%url "core:all_available_applicants"%}">{%trans "Available Job Seekers"%}</a>
+                </li>
+            {%endif%}
+            <li><a href="{%url "core:about_us"%}">{%trans "About Us"%}</a></li>
+            <li>
+                <div class="dropdown">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span
+                            class="flag-icon flag-icon-{%if LANGUAGE_CODE == 'tr'%}tur{%else%}gbr{%endif%} pl-1 pr-1 pb-1"></span>
+                        {{LANGUAGE_CODE | upper}}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <form action="" method="post" id="setlang">
+                            {% csrf_token %}
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {%get_available_languages as LANGUAGES%}
+                            <input name="language" id="language" type="hidden" />
+                            {%for language in LANGUAGES%}
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem"
+                                onclick="set_language('{{ language.0 }}')">
+                                <span
+                                    class="flag-icon flag-icon-{%if language.0 == 'tr'%}tur{%else%}gbr{%endif%} pl-1 pr-1 pb-1"></span>
+                                {{ language.1 }} ({{ language.0 }})
+                            </a>
+                            {%endfor%}
+                        </form>
+                    </div>
+                </div>
+            </li>
+            
+            {%if not request.user.is_authenticated%}
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Become a member</a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                        <a href="{%url "core:register_applicant"%}" class="dropdown-item" role="menuitem">
+                            <span>{%trans "I'm an applicant"%}</span>
+                        </a>
+                        <a href="{%url "core:register_employer"%}" class="dropdown-item" role="menuitem">
+                            <span>{%trans "I'm an employer"%}</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="{%url 'core:login'%}">
+                    <span>{%trans "Log In"%}</span>
+                </a>
+            </li>
+            {%else%}
+                {%if request.user.is_applicant%}
+
+                <li>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">My Profile <i class="fa-solid fa-user"></i></a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                            {%if request.user.has_resume%}
+                            <a href="{%url "core:my_profile" request.user.id%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "My Profile"%}</span> <i class="fas fa-address-card"></i>
+                            </a>
+                            <a href="{%url "core:update_resume"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Update Resume"%}</span> <i class="fas fa-file"></i>
+                            </a>
+                            <a href="{%url "core:applied_jobs"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Applied Jobs"%}</span> <i class="fa-solid fa-briefcase"></i> 
+                            </a>
+                            {%else%}
+                            <a href="{%url "core:update_resume"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Create Resume"%}</span> <i class="fa-solid fa-plus"></i>
+                            </a>
+                            {%endif%}
+
+                            <a href="{%url 'core:logout'%}" class="dropdown-item" href="" role="menuitem">
+                                <span>{%trans "Log Out"%}</span>
+                                <i class="fa-solid fa-right-from-bracket ml-2 mb-0"></i>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {%elif request.user.is_employer%}
+                <li>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">My Profile <i class="fa-solid fa-user"></i></a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            {%if request.user.has_company %}
+                            <a href="{%url "core:company_details" request.user.company.id%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "My Profile"%}</span> <i class="fas fa-building"></i>
+                            </a>
+                            <a href="{%url "core:create_job_advert"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Create Job Advert"%}</span> <i class="fas fa-folder-plus"></i>
+                            </a>
+                            <a href="{%url "core:manage_job_adverts"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Manage Job Adverts"%}</span> <i class="fas fa-folder-open"></i>
+                            </a>
+                            <a href="{%url "core:update_company"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Update Company Details"%}</span> <i class="fa-solid fa-briefcase"></i> 
+                            </a>
+                            {%else %}
+                            <a href="{%url "core:update_company"%}" class="dropdown-item" role="menuitem">
+                                <span>{%trans "Add Company Details"%}</span> <i class="fa-solid fa-briefcase"></i> 
+                            </a>
+                            {%endif%}
+                            <a href="{%url 'core:logout'%}" class="dropdown-item" href="" role="menuitem">
+                                <span>{%trans "Log Out"%}</span>
+                                <i class="fa-solid fa-right-from-bracket ml-2 mb-0"></i>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                {%endif%}
+                <li><span class="text-primary username" style="font-size:15px;">{{request.user.username}}</span></li>
+
+            {%endif%}
+        
+        </ul>
+
+        <!--Burger Menu-->
+        <a href="" class="menu-icon"><i class="fa fa-bars"></i></a>
+    </nav>
+
+</div>
+
+<script>
+
+    if (window.location.hash) {
+        var hash = window.location.hash;
+        document.getElementById('language').value = hash.replace('#', '');
+        document.getElementById('setlang').submit();
+    }
+    function set_language(language) {
+        $('input[name="language"]').val(language);
+        $('form#setlang').submit();
+    }
+
+
+
+    // for toogle burger menu
+    var menu_items = document.getElementById("menu-items");
+    var menu_icon = document.querySelector(".menu-icon");
+    menu_icon.addEventListener("click", menu_toggle);
+
+    if (screen.width == "800") {
+        menu_items.style.maxHeight = "0px";
+    }
+    else {
+        menu_items.style.maxHeight = "500px"
+    }
+
+
+    function menu_toggle(e) {
+        e.preventDefault();
+        if (menu_items.style.maxHeight == "0px") {
+            menu_items.style.maxHeight = "500px";
+        }
+        else {
+            menu_items.style.maxHeight = "0px";
+        }
+
+    }
+</script>

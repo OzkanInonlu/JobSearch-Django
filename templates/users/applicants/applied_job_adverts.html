@@ -1,0 +1,68 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5" style="height:100vh;">
+
+    {%if applied_jobs|length > 0%}
+    <div class="table-responsive">
+        <h2 class="mb-4">My Applied Job Advertisements</h2>
+        <table class="table table-bordered">
+            <thead class="text-center">
+            <tr >
+                <th>No.</th>
+                <th>Job Advert</th>
+                <th>Application Date</th>
+                <th>Status</th>
+                <th>Availability</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for applied_job in applied_jobs%}
+           
+            <tr>
+                <td class="text-center"><b>{{forloop.counter}}</b></td>
+                <td class="text-center"><b><a href="{%url "core:single_job_advert" applied_job.job.id%}">
+                    {{applied_job.job.title}}
+                    <small>(Click to see the details)</small>
+                </a></b>
+                </td>
+                <td><b>{{applied_job.applied_at}}</b></td>
+                <td class="text-center"><b>
+                    {%if applied_job.status == "A"%}
+                        <span class="badge badge-success">{{applied_job.get_status_display}}</span> 
+                    {%elif applied_job.status == "P"%}
+                        <span class="badge badge-warning">{{applied_job.get_status_display}}</span> 
+                    {%else%}
+                        <span class="badge badge-danger">{{applied_job.get_status_display}}</span> 
+                    {%endif%}
+                    
+                </b></td>
+                <td class="text-center">
+                    <b>
+                        {%if applied_job.job.is_available%} 
+                        <span class="badge badge-success">Available</span> 
+                        {%else%} 
+                        <span class="badge badge-danger" >Not Available</span> 
+                        {%endif%}
+                    </b>
+                </td>
+                <td class="text-center">
+                    <a type="button" class="btn btn-sm" href="{%url "core:delete_application" applied_job.id%}">Delete</a>
+                </td>
+            </tr>
+            {%endfor%}
+
+            </tbody>
+        </table>
+    </div>
+    {%else%}
+    <div class="alert alert-warning text-center" style="font-size:17px; font-weight:500;">
+        There is no any applications yet.
+    </div>
+    {%endif%}
+</div>
+
+{%endblock content%}

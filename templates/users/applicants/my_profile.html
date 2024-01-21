@@ -1,0 +1,82 @@
+{%extends "includes/base.html"%}
+{% load crispy_forms_tags %}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5" style="height:100vh">
+  <div class="modal fade" id="updateProfile" tabindex="-1" role="dialog" aria-labelledby="updateProfileLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateProfileLabel">Enter your new credentials</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <small>HRMS</small>
+
+          <form method="post" action="" enctype="multipart/form-data">
+            {%csrf_token%}
+            <input type="hidden" name="action" value="google">
+            <div class="md-form ">
+              {{form.email}}
+              <label for="email" class="" style="padding-top:5px;">New Email</label>
+            </div>
+            <div class="md-form ">
+              {{form.about_me}}
+            </div>
+            {% comment %} <div class="md-form ">
+              {{password_form.old_password}}
+              <label for="old_password" style="padding-top:5px;">Old Password</label>
+            </div>
+            <div class="md-form ">
+              {{password_form.new_password1}}
+              <label for="new_password1" style="padding-top:5px;">New Password</label>
+            </div>
+            <div class="md-form ">
+              {{password_form.new_password2}}
+              <label for="new_password2" style="padding-top:5px;">Confirm New Password</label>
+            </div> {% endcomment %}
+            <button type="submit" class="btn float-right">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> 
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">My Profile</h2>
+        
+        <div class="row mt-4">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <img src="{% static "images/default-avatar.png" %}" alt="Profile Image" class="img-fluid rounded-circle" />
+          </div>
+
+          <div class="col-md-8">
+            <!-- User Information -->
+            <h4>{{applicant.resume.first_name}} {{applicant.resume.last_name}}</h4>
+            <p><strong>Email:</strong> {{applicant.email}}</p>
+            <p><strong>Job Title:</strong> {{applicant.resume.job_title}}</p>
+            <p><strong>Nationality:</strong> {{applicant.resume.get_nationality_display}}</p>
+            <a data-toggle="modal" data-target="#updateProfile" class="btn">Update Credentials</a>
+          </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="mt-4">
+          <h4>About Me</h4>
+          <p>sed quia non numquam eius modi tempora incidunt 
+            labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum 
+            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? 
+            Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae 
+            , vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" 1914 translation by H.
+             Rackham "But I must explain to you how all this mi</p>
+        </div>
+    </div>
+</div>
+
+
+{%endblock content%}

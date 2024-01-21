@@ -1,0 +1,256 @@
+{%extends "includes/base.html"%}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{%block content%}
+
+
+
+<div class="row-1 mt-3">
+    <div class="col-6">
+        <h3 class="text-center p-1 title">{%trans "Register as an Applicant"%}</h3>
+        <div class="mb-3 mt-3 text-center">
+            {%if request.LANGUAGE_CODE == "tr"%}
+            Bir hesabınız varsa, lütfen <a href="{%url "core:login"%}">oturum açın.</a>
+            {%else%}
+              If you have an account, then please <a href="{%url "core:login"%}">sign in.</a>
+            {%endif%}
+        </div>
+
+        <div class="modal fade" id="googleSign" tabindex="-1" role="dialog" aria-labelledby="googleSignLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="d-flex justify-content-center mr-3" style="font-size:35px;">
+                  <i class="fab fa-google"></i>
+                </a>
+                <h5 class="modal-title" id="googleSignLabel">{%trans "Google Sign Up"%}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <small>{%trans "Please provide us your account information to sing in you."%}</small>
+
+                <form method="post" action="" enctype="multipart/form-data">
+                  {%csrf_token%}
+                  <input type="hidden" name="action" value="google">
+                  <div class="md-form ">
+                    <input type="text" id="email" class="form-control" name="g_email">
+                    <label for="email" class="" style="padding-top:5px;">{%trans "Email"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="text" id="username" class="form-control" name="g_username">
+                    <label for="username" class="" style="padding-top:5px;">{%trans "Username"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="password" name="g_password" id="password" class="form-control">
+                    <label for="password" style="padding-top:5px;">{%trans "Password"%}</label>
+                  </div>
+                  <button type="submit" class="btn float-right">{%trans "Submit"%}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>    
+
+
+        <div class="modal fade" id="facebookSign" tabindex="-1" role="dialog" aria-labelledby="facebookSignLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="d-flex justify-content-center mr-3" style="font-size:35px; color: #4267B2;">
+                  <i class="fa-brands fa-facebook"></i>
+                </a>
+                <h5 class="modal-title" id="facebookSignLabel">{%trans "Facebook Sign Up"%}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <small>{%trans "Please provide us your account information to sing in you."%}</small>
+
+                <form method="post" action="" enctype="multipart/form-data">
+                  {%csrf_token%}
+                  <input type="hidden" name="action" value="facebook">
+                  <div class="md-form ">
+                    <input type="text" id="email" class="form-control" name="f_email">
+                    <label for="email" class="" style="padding-top:5px;">{%trans "Email"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="text" id="username" class="form-control" name="f_username">
+                    <label for="username" class="" style="padding-top:5px;">{%trans "Username"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="password" id="password" name="f_password" class="form-control">
+                    <label for="password"  style="padding-top:5px;">{%trans "Password"%}</label>
+                  </div>
+                  <button type="submit" class="btn float-right">{%trans "Submit"%}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="twitterSign" tabindex="-1" role="dialog" aria-labelledby="twitterSignLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="d-flex justify-content-center mr-3" style="font-size:35px; color: #00acee;">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <h5 class="modal-title" id="twitterSignLabel">{%trans "Twitter Sign Up"%}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <small>{%trans "Please provide us your account information to sing in you."%}</small>
+
+                <form method="post" action="" enctype="multipart/form-data">
+                  {%csrf_token%}
+                  <input type="hidden" name="action" value="twitter">
+                  <div class="md-form ">
+                    <input type="text" id="email" class="form-control" name="t_email">
+                    <label for="email" class="" style="padding-top:5px;">{%trans "Email"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="text" id="username" class="form-control" name="t_username">
+                    <label for="username" class="" style="padding-top:5px;">{%trans "Username"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="password" id="password" name="t_password" class="form-control">
+                    <label for="password"  style="padding-top:5px;">{%trans "Password"%}</label>
+                  </div>
+                  <button type="submit" class="btn float-right">{%trans "Submit"%}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="githubSign" tabindex="-1" role="dialog" aria-labelledby="githubSignLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="d-flex justify-content-center mr-3" style="font-size:35px; color: #171515;">
+                  <i class="fab fa-github"></i>
+                </a>
+                <h5 class="modal-title" id="githubSignLabel">{%trans "Github Sign Up"%}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <small>{%trans "Please provide us your account information to sing in you."%}</small>
+
+                <form method="post" action="" enctype="multipart/form-data">
+                  {%csrf_token%}
+                  <input type="hidden" name="action" value="github">
+                  <div class="md-form ">
+                    <input type="text" id="email" class="form-control" name="gi_email">
+                    <label for="email" class="" style="padding-top:5px;">{%trans "Email"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="text" id="username" class="form-control" name="gi_username">
+                    <label for="username" class="" style="padding-top:5px;">{%trans "Username"%}</label>
+                  </div>
+                  <div class="md-form ">
+                    <input type="password" id="password" name="gi_password" class="form-control">
+                    <label for="password"  style="padding-top:5px;">{%trans "Password"%}</label>
+                  </div>
+                  <button type="submit" class="btn float-right">{%trans "Submit"%}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <form method="post" enctype="multipart/form-data" class="mb-5">
+            {%csrf_token%}
+            <div class="text-center mb-1">
+                <p>{%trans "Sign up with:"%}</p>
+                <a data-toggle="modal" data-target="#facebookSign" class="ml-3"style="font-size:25px; color: #4267B2;">
+                  <i class="fa-brands fa-facebook"></i>
+                </a>
+        
+                <a data-toggle="modal" data-target="#googleSign" class="ml-3"style="font-size:25px; color: #DB4437;">
+                  <i class="fab fa-google"></i>
+                </a>
+        
+                <a data-toggle="modal" data-target="#twitterSign" class="ml-3"style="font-size:25px; color: #00acee;">
+                  <i class="fab fa-twitter"></i>
+                </a>
+        
+                <a data-toggle="modal" data-target="#githubSign" class="ml-3"style="font-size:25px; color: #171515;">
+                  <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <div class="row">
+             {% comment %} <div class="col-md-12">
+                {%if form.errors%}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{form.non_field_errors}}
+                  {% for error in form.username.errors %}
+                      {{error}}
+                  {% endfor %}
+                  {% for error in form.email.errors %}
+                      {{error}}
+                  {% endfor %}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {%endif%}
+              </div> {% endcomment %}
+              <div class="col-md-12 mb-1">
+                <div class="md-form">
+                  {{form.email}}
+                  <label for="email" class="" style="padding-top:5px;">{%trans "Email"%}</label>
+                </div>
+
+              </div>
+                <!--Grid column-->
+                <!-- <div class="col-md-12 mb-1">
+                  <div class="md-form ">
+                    {% comment %} <input type="text" id="username" class="form-control"> {% endcomment %}
+                    {{form.username}}
+                    <label for="username" class="" style="padding-top:5px;">{%trans "Username"%}</label>
+                  </div>
+
+                </div> -->
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-12 mb-1">
+                  <div class="md-form">
+                    {% comment %} <input type="text" id="password" class="form-control"> {% endcomment %}
+                    {{form.password1}}
+                    <label for="password1" class="" style="padding-top:5px;">{%trans "Password"%}</label>
+                  </div>
+                </div>
+
+                <div class="col-md-12 mb-1">
+                    <div class="md-form">
+                      {% comment %} <input type="text" id="confirmPassword" class="form-control"> {% endcomment %}
+                      {{form.password2}}
+                      <label for="password2" class="" style="padding-top:5px;">{%trans "Password Again"%}</label>
+                    </div>
+                  </div>
+                <div class="ml-auto col-md-3 col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">{%trans "Sign up"%}</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+
+{%endblock%}

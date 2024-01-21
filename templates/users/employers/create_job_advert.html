@@ -1,0 +1,123 @@
+{%extends "includes/base.html"%}
+ {%load static%} 
+ {%load i18n%} 
+ {% load crispy_forms_tags %} 
+ {%block content%}
+ <main class="mt-1 pt-4 mb-5">
+    <div class="container wow fadeIn">
+  
+      <!-- Heading -->
+      <h3 class="text-center p-1 title">{%trans "Create Job Advertisement"%}</h3>
+      <!--Grid row-->
+  
+      <div class="row">
+  
+        <!--Grid column-->
+        <div class="col-md-12 mb-4" >
+  
+          <!--Card-->
+          <div class="card">
+  
+            <!--Card content-->
+            <form class="card-body" method="POST" enctype="multipart/form-data">
+              {%csrf_token %}
+  
+              <h3 class="p-1">{%trans "Job Advertisement Information"%}</h3>
+  
+              <div>
+  
+                <!--Username-->
+                <div class="md-form input-group pl-0 mb-5">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                  </div>
+                  <input type="text" class="form-control py-0" placeholder="Username" name="username"
+                    value="{{request.user.username}}" disabled aria-describedby="basic-addon1">
+                </div>
+  
+                <div class="md-form mb-5">
+                  {{form.title}}
+                  <label for="title" style="padding-top:5px;" class="">Job Title</label>
+                </div>
+  
+                <!--Grid row-->
+                <div class="row">
+  
+                  <!--Grid column-->
+                  <div class="col-lg-4 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      <select id="industry" name="industry" class="mr-1">
+                        {%for i in INDUSTRIES %}
+                          <option value="{{i}}">{{i}}</option> 
+                        {%endfor%}
+                      </select>
+                      <label for="industry" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {{form.location}}
+                      <label for="location" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {{form.job_type}}
+                      <label for="job_type" class="" style="padding-top:5px;"></label>
+                    </div>
+                  </div>
+                  <!--Grid column-->
+  
+                  <!--Grid column-->
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {{form.min_salary}}
+                      <label for="min_salary" class="" style="padding-top:5px;">{%trans "Min Salary"%}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-2 col-md-12 col-sm-12 mb-1">
+
+                    <div class="md-form">
+                      {{form.max_salary}}
+                      <label for="max_salary" class="" style="padding-top:5px;">{%trans "Max Salary"%}</label>
+                    </div>
+                  </div>  
+                </div> 
+
+                <div class="md-form mb-5">
+                    {{form.description}}
+                    <label for="description" style="padding-top:5px;" class=""></label>
+                </div>
+
+                <div class="d-block">
+                    <div class="custom-control custom-checkbox">
+                      {{form.is_available}}
+                      <label class="custom-control-label" for="is_available">
+                        {%trans "Is that job advert still available?" %}</label>
+                    </div>
+                </div>
+
+              </div>
+              <hr class="mb-4">
+              <button class="btn btn-lg btn-block" type="submit">{%trans "Create Job Advert"%}</button>
+            </form>
+  
+          </div>
+          <!--/.Card-->
+  
+        </div>
+        <!--Grid column-->
+
+  
+      </div>
+      <!--Grid row-->
+  
+    </div>
+  </main>
+
+{%endblock%}

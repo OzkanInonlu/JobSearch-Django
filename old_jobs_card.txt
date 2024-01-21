@@ -1,0 +1,17 @@
+                {% comment %} <div class="card">
+					<div class="card-header text-center"><b>Posted by </b>{{job_advert.company.company_name}}</div>
+					<div class="card-body">
+						<h5 class="card-title">{{job_advert.title}}</h5>
+						<p class="card-text" style="font-size:16px"><b>Industry : </b>{{job_advert.industry.name}}</p>
+						<p class="card-text" style="font-size:16px"><b>Job Location : </b>{{job_advert.get_location_display}}</p>
+						<p class="card-text" style="font-size:16px"><b>Job Type: </b>{{job_advert.get_job_type_display}}</p>
+						<p class="card-text" style="font-size: 16px;"><b>Salary Range :</b> {{job_advert.min_salary | intcomma}} $ to {{job_advert.max_salary | intcomma}} $</p> 
+						<p class="card-text" style="font-size:14px">{{job_advert.description | truncatechars:50}}</p>
+						<div style="display:flex; justify-content: center;" class="mt-3">
+							<a href="{%url 'core:single_job_advert' job_advert.id%}" class="btn">
+								See Details<span>&raquo;</span>
+							</a>
+						</div>
+					</div>
+                    <div class="card-footer text-muted text-center">{{job_advert.created_at | naturaltime}}</div>
+                </div> {% endcomment %}

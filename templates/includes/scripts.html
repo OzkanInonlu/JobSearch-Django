@@ -1,0 +1,71 @@
+{% load static %}
+
+<script
+  type="text/javascript"
+  src="{%static 'js/jquery-3.4.1.min.js'%}"
+></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="{%static 'js/popper.min.js'%}"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{%static 'js/bootstrap.min.js'%}"></script>
+
+{% comment %}
+<script
+  type="text/javascript"
+  src="{%static 'js/bootstrap.bundle.min.js'%}"
+></script>
+{% endcomment %}
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{%static 'js/mdb.min.js'%}"></script>
+<!-- Initializations -->
+<script type="text/javascript">
+  // Animations initialization
+  new WOW().init();
+</script>
+
+<!--Google API-->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Live Chat Bot -->
+<script src="//code.tidio.co/norh1o9ru6trobxfpxdteck4l7ydmpbn.js" async></script>
+
+<!--ChipBot-->
+<script>
+  window.CHIPBOT_ID = "act_d2mjpwX0CcX9";
+  window[["CHIPBOT", "DOMAIN", "ID"].join("_")] = "dom_140XjmzsMFcB";
+  !(function (c, h, i, p, b, o, t) {
+    (o = h.createElement(i)),
+      (t = h.getElementsByTagName(i)[0]),
+      (o.async = 1),
+      (o.src = "https://static.getchipbot.com/edge/p/chipbot.js"),
+      t.parentNode.insertBefore(o, t);
+  })(window, document, "script");
+</script>
+
+
+
+<!-- Filter hiding in all_job_adverts.html-->
+<script>
+  var filter_display_btn = document.querySelector("#filter_display_btn");
+  var hideable_filters = document.querySelector("#hideable-filters");
+  var eye_icon = document.querySelector("#eye-icon");
+  var filter_title = document.querySelector("#filter-title");
+  hideable_filters.style.display="none";
+
+  /*hideable_filters.style.display=="none"?eye_icon.classList.add("fa-eye"):eye_icon.classList.add("fa-eye-slash");*/
+
+  function showFilters(){
+      if(hideable_filters.style.display=="none"){
+        hideable_filters.style.display="block";
+        filter_title.innerText = "Hide Filters";
+        eye_icon.className="fas fa-eye-slash";
+
+      }
+      else if(hideable_filters.style.display=="block"){
+        hideable_filters.style.display="none";
+        filter_title.innerText = "Show Filters";
+        eye_icon.className="fas fa-eye";
+      }
+  }
+</script>

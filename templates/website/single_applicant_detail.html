@@ -1,0 +1,35 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5" style="height:100vh">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">{%if applicant.resume%}{{applicant.resume.first_name}}'s Profile{%else%}Not have any resume yet{%endif%}</h2>
+        
+        <div class="row mt-4">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <img src="{% static "images/default-avatar.png" %}" alt="Profile Image" class="img-fluid rounded-circle" />
+          </div>
+
+          <div class="col-md-8">
+            <!-- User Information -->
+            <h4>{{applicant.resume.first_name}} {{applicant.resume.last_name}}</h4>
+            <p><strong>Email:</strong> {{applicant.email}}</p>
+            <p><strong>Job Title:</strong> {{applicant.resume.job_title}}</p>
+            <p><strong>Nationality:</strong> {{applicant.resume.get_nationality_display}}</p>
+          </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="mt-4">
+          <h4>About Me</h4>
+          <p>{%if applicant.resume%}ADASDJASKLDKHADJADKAASDASDADAD{%endif%}</p>
+        </div>
+    </div>
+</div>
+
+
+{%endblock content%}

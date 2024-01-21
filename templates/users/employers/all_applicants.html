@@ -1,0 +1,81 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5 " style="height:100vh">
+
+    {%if applicants|length > 0%}
+
+    <div class="table-responsive">
+        <h2 class="mb-4">All Applicants for {{job.title}} position</h2>
+        <table class="table table-bordered">
+            <thead class="text-center">
+            <tr >
+                <th>No.</th>
+                <th>Full Name</th>
+                {% comment %} <th>Nationality</th> {% endcomment %}
+                <th>Job Title</th>
+                <th>Application Date</th>
+                <th>Status</th>
+                <th>See Profile</th>
+                <th>Check Resume</th>
+                <th>Accept/Reject</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for applicant in applicants%}
+           
+            <tr>
+                <td class="text-center"><b>{{forloop.counter}}</b></td>
+                <td class="text-center"><b>{{applicant.user.resume.first_name}} {{applicant.user.resume.last_name}}</b></td>
+                {% comment %} <td class="text-center"><b>{{applicant.user.resume.get_nationality_display}}</b></td> {% endcomment %}
+                <td class="text-center"><b>{{applicant.user.resume.job_title}}</b></td>
+                <td class="text-center"><b>{{applicant.applied_at}}</b></td>
+                <td class="text-center"><b>
+                    {%if applicant.status == "A"%}
+                        <span class="badge badge-success">{{applicant.get_status_display}}</span> 
+                    {%elif applicant.status == "P"%}
+                        <span class="badge badge-warning">{{applicant.get_status_display}}</span> 
+                    {%else%}
+                        <span class="badge badge-danger">{{applicant.get_status_display}}</span> 
+                    {%endif%}
+                    
+                </b></td>
+                <td class="text-center">
+                    <a type="button" class="" href="{%url "core:single_applicant_detail" applicant.user.id%}"><b>Click to See</b></a>
+                </td>
+                <td class="text-center">
+                    <a type="button" class="btn btn-sm" href="{{applicant.user.resume.upload_resume.url}}" target="_blank">Download CV</a>
+                </td>
+                <td class="text-center">
+                    <form action="{%url "core:change_application_status" applicant.id%}" method="post" enctype="multipart/form-data">
+                        {%csrf_token%}
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-sm" name="action" value="accept">
+                                <i class="fas fa-check"></i></button>
+                            <button type="submit" class="btn btn-sm" name="action" value="reject">
+                                {% comment %} {%if applicant.status == "A"%}
+                                    Reject 
+                                {%elif applicant.status == "R"%}
+                                    Accept
+                                {%else%}
+                                    Waiting
+                                {%endif%} {% endcomment %}
+                                <i class="fas fa-times"></i></button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            {%endfor%}
+
+            </tbody>
+        </table>
+    </div>
+    {%else%}
+    <div class="alert alert-warning text-center" style="font-size:17px; font-weight:500;">
+        There is no any applicants yet.
+    </div>
+    {%endif%}
+</div>
+{%endblock content%}

@@ -1,0 +1,114 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{%load i18n%}
+{% load humanize %}
+{%load widget_tweaks%}
+
+{%block content%}
+
+<div class="container mt-4">
+	<h3 class="text-center p-1 title">Available Job Advertisements</h3>
+	<a type="button" id="filter_display_btn" onClick="showFilters()">
+		<small id="filter-title">Show Filters </small><i id="eye-icon" class="fas fa-eye"></i>
+	</a>
+	<div id="hideable-filters">
+		<form method="GET" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-lg-4">      
+					<div class="md-form">
+						<label for="title">Search for a job</label>
+						{{ filter_query.form.title|add_class:"form-control" }}
+					</div>
+				</div>
+				<div class="col-lg-4">      
+					<div class="md-form">
+						<label for="min_salary">Min Salary ($)</label>
+						{{filter_query.form.min_salary | add_class:"form-control"}}
+					</div>
+				</div>
+				<div class="col-lg-4">      
+					<div class="md-form">
+						<label for="max_salary">Max Salary ($)</label>
+						{{filter_query.form.max_salary | add_class:"form-control"}}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="md-form">
+						{{ filter_query.form.job_type|add_class:"browser-default custom-select" }}
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="md-form">
+						{{ filter_query.form.location|add_class:"browser-default custom-select" }}
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="md-form">
+						{{ filter_query.form.industry|add_class:"browser-default custom-select" }}
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<button class="btn float-right" type="submit">Search</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<hr>
+	<div class="row">
+		{%if filter_query.qs%}
+			{%for job_advert in filter_query.qs%}
+				<div class="col-lg-12 mb-3">
+					<div class="card mb-4">
+						<div class="card-header text-center bg-primary text-white"><b>Posted by </b>{{job_advert.company.company_name}}</div>
+						<div class="card-body">
+							<h5 class="card-title">{{ job_advert.title }}</h5>
+							<h6 class="card-subtitle mb-2 text-muted">{{ job_advert.company.name }}</h6>
+							<p class="card-text">{{ job_advert.description | truncatechars:150 }}</p>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item"><b>Job Location : </b>{{job_advert.get_location_display}}</li>
+								<li class="list-group-item"><b>Salary Range :</b> $ {{job_advert.min_salary | intcomma}} to $ {{job_advert.max_salary | intcomma}}</li>
+								<li class="list-group-item"><b>Job Type: </b>{{job_advert.get_job_type_display}}</li>
+								<li class="list-group-item"><b>Industry : </b>{{job_advert.industry.name}}</li>
+							</ul>
+							<div style="display:flex; justify-content: center;" class="mt-3">
+								<a href="{%url 'core:single_job_advert' job_advert.id%}" class="btn">
+									See Details<span>&raquo;</span>
+								</a>
+							</div>
+						</div>
+						<div class="card-footer text-muted text-center">{{job_advert.created_at | naturaltime}}</div>
+
+					</div>
+				</div>
+			{%endfor%}
+		{%else%}
+		<div class="col-lg-12 alert alert-warning text-center" style="font-size:17px; font-weight:500;">
+			There are no any job advertisements with the searched filters.
+		</div>
+		{%endif%}
+	</div>
+</div>
+
+
+{%endblock%}
+
+{% block extra_scripts %}
+<script>
+// 	var select_form = document.getElementById("select_form");
+// 	function func(){
+// 		var select = document.querySelector("select");
+// 		var value = select.options[select.selectedIndex].value;
+// 		console.log(value)
+// 		select_form
+// 		select.value = value;
+// }
+// 	select_form.addEventListener("change", func);
+
+</script>
+{% endblock extra_scripts %}

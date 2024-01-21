@@ -1,0 +1,66 @@
+{%extends "includes/base.html"%}
+{%load static%}
+{% load humanize %}
+
+{%block content%}
+<div class="container mt-5" style="height:100vh">
+
+    {%if all_job_adverts|length%}
+
+    <div class="table-responsive">
+        <h2 class="mb-4">Job Adverts Management</h2>
+        <table class="table table-bordered">
+            <thead class="text-center">
+            <tr >
+                <th>No.</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Min Salary</th>
+                <th>Max Salary</th>
+                <th>Creation Date</th>
+                <th>Status</th>
+                <th>No. of Applicants</th>
+                <th>Update/Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for job_advert in all_job_adverts%}
+           
+            <tr>
+                <td class="text-center"><b>{{forloop.counter}}</b></td>
+                <td class="text-center"><a href="{%url "core:single_job_advert" job_advert.id%}"><b>{{job_advert.title}} <br>(Click to see the details)</b></a></td>
+                <td class="text-center"><b>{{job_advert.get_location_display}}</b></td>
+                <td class="text-center"><b>{{job_advert.min_salary}} $</b></td>
+                <td class="text-center"><b>{{job_advert.max_salary}} $</b></td>
+                <td class="text-center"><b>{{job_advert.created_at}}</b></td>
+                <td class="text-center">
+                    <b>
+                        {%if job_advert.is_available%} 
+                        <span class="badge badge-success">Available</span> 
+                        {%else%} 
+                        <span class="badge badge-danger" >Not Available</span> 
+                        {%endif%}
+                    </b>
+                </td>
+                <td class="text-center"><a href="{%url "core:all_applicants" job_advert.id%}"><b>{{job_advert.applyjob_set.all.count}} (view all)</b></a></td>
+                <td class="text-center">
+                    <a type="button" class="btn btn-primary btn-sm" href="{%url "core:update_job_advert" job_advert.id%}">Edit</a>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-sm" href="{%url "core:delete_job_advert" job_advert.id%}">Delete</a>
+                </td>
+            </tr>
+            {%endfor%}
+
+            </tbody>
+        </table>
+    </div>
+    {%else%}
+    <div class="alert alert-warning text-center" style="font-size:17px; font-weight:500;">
+        No published job advertisements yet.
+    </div>
+    {%endif%}
+</div>
+
+{%endblock content%}
